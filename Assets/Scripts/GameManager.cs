@@ -6,10 +6,11 @@ public class GameManager : MonoBehaviour
 {
     
     public int fuel;
+    public int startFuel = 1000;
     public Text fuelText;
 
     public void Start(){
-        this.fuel = 100;
+        this.fuel = this.startFuel;
         this.fuelText.text = this.fuel.ToString();
     }
 

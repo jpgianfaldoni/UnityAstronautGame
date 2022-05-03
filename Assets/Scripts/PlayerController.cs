@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem emitter;
     private bool emitting = false;
 
+    public GameObject yawPointer, pitchPointer, spdXPointer, spdYPointer;
+    private float yaw, pitch;
+
 
     void Start()
     {
@@ -59,6 +62,17 @@ public class PlayerController : MonoBehaviour
         characterController.Move(direction * Time.deltaTime);
         this.transform.Rotate(Vector3.up, mouse_dX);
         this.transform.Rotate(Vector3.right, -mouse_dY);
+        this.yaw += mouse_dX;
+        this.pitch-=mouse_dY;
+        this.yaw = this.yaw%360;
+        this.pitch = this.pitch%360;
+        
+
+        yawPointer.transform.eulerAngles = new Vector3(0,0,this.yaw);
+        pitchPointer.transform.eulerAngles = new Vector3(0,0,this.pitch);
+        spdXPointer.transform.eulerAngles = new Vector3(0,0,direction.x);
+        spdYPointer.transform.eulerAngles = new Vector3(0,0,direction.y);
+        
 
         
 
