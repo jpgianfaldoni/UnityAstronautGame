@@ -1,13 +1,13 @@
 using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
-    public float _baseSpeed = 10.0f;
+    private float _baseSpeed = 0.5f;
     private float _mouseSensitivity = 250.0f;
     private CharacterController characterController;
     private GameObject playerCamera;
     private Light flashlight;
     private float cameraRotation;
-
+    private Vector3 direction = Vector3.zero;
     public ParticleSystem emitter;
     private bool emitting = false;
 
@@ -30,17 +30,15 @@ public class PlayerController : MonoBehaviour
 
         cameraRotation-=mouse_dY;
         Mathf.Clamp(cameraRotation, -75.0f, 75.0f);
-        
-        Vector3 direction = Vector3.zero;
-        if (Input.GetButton("Jump")){
-            direction = playerCamera.transform.forward * this._baseSpeed;
-        }
+        // if (Input.GetButton("Jump")){
+        //     direction = playerCamera.transform.forward * this._baseSpeed;
+        // }
         
         if(Input.GetMouseButton(0)){
             if (!emitting){
                 emitter.Play();
             }
-            direction = playerCamera.transform.forward * -this._baseSpeed;
+            direction += playerCamera.transform.forward * -this._baseSpeed;
             emitting = true;
         } else {
             if (emitting){
