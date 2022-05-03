@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem emitter;
     private bool emitting = false;
 
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -37,16 +38,19 @@ public class PlayerController : MonoBehaviour
         }
         
         if(Input.GetMouseButton(0)){
-            if (!emitting){
-                emitter.Play();
+            if(FindObjectOfType<GameManager>().fuel > 0) {
+                if (!emitting){
+                    emitter.Play();
+                }
+                FindObjectOfType<GameManager>().useFuel();
+                direction = playerCamera.transform.forward * -this._baseSpeed;
+                emitting = true;
+            } else {
+                if (emitting){
+                    emitter.Stop();
+                }
+                emitting = false;
             }
-            direction = playerCamera.transform.forward * -this._baseSpeed;
-            emitting = true;
-        } else {
-            if (emitting){
-                emitter.Stop();
-            }
-            emitting = false;
         }
 
         characterController.Move(direction * Time.deltaTime);
