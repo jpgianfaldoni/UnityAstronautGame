@@ -10,3 +10,4 @@
 - Possíveis objetos/consumíveis para mover sem gás
 - SFX
 - Modelo Personagem
+- Menu inicial
