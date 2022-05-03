@@ -1,6 +1,6 @@
 # UnityAstronautGame
 
-- Limite de combustível
+- ~~Limite de combustível~~
 - Inércia
 - Limite de tempo (Timer)
 - Possível Tempo=Combustível (Oxigênio)
