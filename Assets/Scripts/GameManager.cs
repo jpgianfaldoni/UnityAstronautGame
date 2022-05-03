@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public Text fuelText;
 
     public void Start(){
-        this.fuel = 100;
+        this.fuel = 10000000;
         this.fuelText.text = this.fuel.ToString();
     }
 
