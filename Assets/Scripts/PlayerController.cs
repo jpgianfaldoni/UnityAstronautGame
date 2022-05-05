@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     private float _baseSpeed = 0.5f;
@@ -11,7 +12,8 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem emitter;
     private bool emitting = false;
 
-    public GameObject yawPointer, pitchPointer, spdXPointer, spdYPointer;
+    public GameObject yawPointer, pitchPointer;
+    public Text speedText;
     private float yaw, pitch;
 
 
@@ -33,11 +35,7 @@ public class PlayerController : MonoBehaviour
         mouse_dY = Input.GetAxis("Mouse Y") * this._mouseSensitivity * Time.deltaTime;
 
         cameraRotation-=mouse_dY;
-        Mathf.Clamp(cameraRotation, -75.0f, 75.0f);
-        // if (Input.GetButton("Jump")){
-        //     direction = playerCamera.transform.forward * this._baseSpeed;
-        // }
-        
+        Mathf.Clamp(cameraRotation, -75.0f, 75.0f);       
         if(Input.GetMouseButton(0)){
             if(FindObjectOfType<GameManager>().fuel > 0) {
                 if (!emitting){
@@ -57,7 +55,19 @@ public class PlayerController : MonoBehaviour
                 emitter.Stop();
             }
             emitting = false;
+            if (Input.GetButton("Jump")){
+                if(FindObjectOfType<GameManager>().fuel > 0){
+                    // Consume more fuel the faster you're going
+                    int cost = ((int)direction.magnitude) / 10 + 1;
+                    if(FindObjectOfType<GameManager>().fuel > 0){
+                        FindObjectOfType<GameManager>().useFuel(cost);
+                        direction = Vector3.zero;
+                    }
+                }
+            }
         }
+        direction = Vector3.ClampMagnitude(direction, 100.0f);
+        speedText.text = direction.magnitude.ToString("0");
 
         characterController.Move(direction * Time.deltaTime);
         this.transform.Rotate(Vector3.up, mouse_dX);
@@ -67,14 +77,8 @@ public class PlayerController : MonoBehaviour
         this.yaw = this.yaw%360;
         this.pitch = this.pitch%360;
         
-
         yawPointer.transform.eulerAngles = new Vector3(0,0,this.yaw);
-        pitchPointer.transform.eulerAngles = new Vector3(0,0,this.pitch);
-        spdXPointer.transform.eulerAngles = new Vector3(0,0,direction.x);
-        spdYPointer.transform.eulerAngles = new Vector3(0,0,direction.y);
-        
-
-        
+        pitchPointer.transform.eulerAngles = new Vector3(0,0,this.pitch);       
 
         // playerCamera.transform.localRotation = Quaternion.Euler(cameraRotation, 0.0f, 0.0f);
         // flashlight.transform.localRotation = Quaternion.Euler(cameraRotation, 0.0f, 0.0f);

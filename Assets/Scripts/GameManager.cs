@@ -14,14 +14,23 @@ public class GameManager : MonoBehaviour
         this.fuelText.text = this.fuel.ToString();
     }
 
+    // No mention of amount, implies 1;
     public void useFuel(){
-        if(this.fuel > 0){
-            this.fuel--;
-            this.fuelText.text = this.fuel.ToString();
-        }
+        this.useFuel(1);
     }
 
-    
+    // Spend amount of fuel
+    public void useFuel(int amt){
+        if(this.fuel > amt){
+            this.fuel-= amt;
+        } else if(this.fuel > 0) {
+            this.fuel = 0;
+        } else {
+            return;
+        }
+        this.fuelText.text = this.fuel.ToString();
+    }
+
     private void GameOver(){
     }
 
