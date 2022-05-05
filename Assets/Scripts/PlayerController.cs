@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         direction = Vector3.ClampMagnitude(direction, 100.0f);
-        speedText.text = direction.magnitude.ToString("0");
+        speedText.text = "Speed: " + direction.magnitude.ToString("0");
 
         characterController.Move(direction * Time.deltaTime);
         this.transform.Rotate(Vector3.up, mouse_dX);
