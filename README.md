@@ -9,5 +9,5 @@
 - Puzzle(s)
 - Possíveis objetos/consumíveis para mover sem gás
 - SFX
-- Modelo Personagem
+- ~~Modelo Personagem~~
 - ~~Menu inicial~~
