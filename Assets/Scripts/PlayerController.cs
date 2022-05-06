@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
 
     private float _timeRemaining = 60;
 
+    public AudioSource gasRelease, warning;
+
+    private bool playWarning = true;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -30,11 +34,18 @@ public class PlayerController : MonoBehaviour
     }
 
     void updateTimer(){
+
         if(this._timeRemaining > 0){
             this._timeRemaining -= Time.deltaTime;
+            if(this._timeRemaining < 20 && playWarning == true){
+                warning.Play();
+                timerText.color = Color.red;
+                playWarning = false;
+            }
         } else {
             // Time ran out
             Debug.Log("Time is up!");
+            this._timeRemaining = 0f;   
         }
         float minutes = Mathf.FloorToInt(this._timeRemaining / 60);
         float seconds = Mathf.FloorToInt(this._timeRemaining % 60);
@@ -62,18 +73,21 @@ public class PlayerController : MonoBehaviour
             if(FindObjectOfType<GameManager>().fuel > 0) {
                 if (!emitting){
                     emitter.Play();
+                    gasRelease.Play();
                 }
                 FindObjectOfType<GameManager>().useFuel();
                 direction += playerCamera.transform.forward * -this._baseSpeed;
                 emitting = true;
             } else {
                 if (emitting){
+                    gasRelease.Stop();
                     emitter.Stop();
                 }
                 emitting = false;
             }
         } else {
             if (emitting){
+                gasRelease.Stop();
                 emitter.Stop();
             }
             emitting = false;
