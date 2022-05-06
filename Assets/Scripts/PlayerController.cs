@@ -13,12 +13,11 @@ public class PlayerController : MonoBehaviour
     private bool emitting = false;
 
     public GameObject yawPointer, pitchPointer;
-    public Text speedText;
+    private GameObject goal;
+    public Text speedText, distanceText, timerText;
     private float yaw, pitch;
 
     private float _timeRemaining = 60;
-
-    public Text timerText;
 
     void Start()
     {
@@ -27,6 +26,7 @@ public class PlayerController : MonoBehaviour
         playerCamera = GameObject.Find("Main Camera");
         cameraRotation = 0.0f;
         Cursor.lockState = CursorLockMode.Locked;
+        goal = GameObject.FindGameObjectWithTag("Finish");
     }
 
     void updateTimer(){
@@ -42,9 +42,15 @@ public class PlayerController : MonoBehaviour
         timerText.text = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
     }
 
+    void updateDistance(){
+        float dist = Vector3.Distance(this.gameObject.transform.position, this.goal.transform.position);
+        this.distanceText.text = string.Format("Distance to goal: {0:0}m", dist);
+    }
+
     void Update()
     {
         updateTimer();
+        updateDistance();
 
         float mouse_dX, mouse_dY;
         mouse_dX = Input.GetAxis("Mouse X") * this._mouseSensitivity * Time.deltaTime;

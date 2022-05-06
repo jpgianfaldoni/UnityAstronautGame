@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
         } else {
             return;
         }
-        this.fuelText.text = this.fuel.ToString();
+        this.fuelText.text = "Fuel: " + this.fuel.ToString();
     }
 
     private void GameOver(){
