@@ -2,7 +2,7 @@
 
 - ~~Limite de combustível~~
 - ~~Inércia~~
-- Limite de tempo (Timer)
+- ~~Limite de tempo (Timer)~~
 - Possível Tempo=Combustível (Oxigênio)
 - Nave
 - Level Design 
