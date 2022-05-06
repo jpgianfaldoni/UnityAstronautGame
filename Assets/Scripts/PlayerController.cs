@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     public Text speedText;
     private float yaw, pitch;
 
+    private float _timeRemaining = 60;
+
+    public Text timerText;
 
     void Start()
     {
@@ -26,9 +29,22 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    void updateTimer(){
+        if(this._timeRemaining > 0){
+            this._timeRemaining -= Time.deltaTime;
+        } else {
+            // Time ran out
+            Debug.Log("Time is up!");
+        }
+        float minutes = Mathf.FloorToInt(this._timeRemaining / 60);
+        float seconds = Mathf.FloorToInt(this._timeRemaining % 60);
+        float milliseconds = (this._timeRemaining%1)*1000;
+        timerText.text = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+    }
+
     void Update()
     {
-
+        updateTimer();
 
         float mouse_dX, mouse_dY;
         mouse_dX = Input.GetAxis("Mouse X") * this._mouseSensitivity * Time.deltaTime;
