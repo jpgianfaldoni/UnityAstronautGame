@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     private float _timeRemaining = 60;
 
-    public AudioSource gasRelease, warning;
+    public AudioSource gasRelease, warning, gasReleaseSpace;
 
     private bool playWarning = true;
 
@@ -91,13 +91,14 @@ public class PlayerController : MonoBehaviour
                 emitter.Stop();
             }
             emitting = false;
-            if (Input.GetButton("Jump")){
+            if (Input.GetButtonDown("Jump")){
                 if(FindObjectOfType<GameManager>().fuel > 0){
                     // Consume more fuel the faster you're going
                     int cost = ((int)direction.magnitude) / 10 + 1;
                     if(FindObjectOfType<GameManager>().fuel > 0){
                         FindObjectOfType<GameManager>().useFuel(cost);
                         direction = Vector3.zero;
+                        gasReleaseSpace.Play();
                     }
                 }
             }
