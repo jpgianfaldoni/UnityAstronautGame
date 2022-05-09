@@ -1,38 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+
+public class GameManager
 {
-    
-    public int fuel;
-    public int startFuel = 1000;
-    public Text fuelText;
+    private static GameManager _instance;
 
-    public void Start(){
-        this.fuel = this.startFuel;
-        this.fuelText.text = this.fuel.ToString();
+   private void Reset()
+    {
     }
 
-    // No mention of amount, implies 1;
-    public void useFuel(){
-        this.useFuel(1);
-    }
+   public static GameManager GetInstance()
+   {
+       if(_instance == null)
+       {
+           _instance = new GameManager();
+       }
 
-    // Spend amount of fuel
-    public void useFuel(int amt){
-        if(this.fuel > amt){
-            this.fuel-= amt;
-        } else if(this.fuel > 0) {
-            this.fuel = 0;
-        } else {
-            return;
-        }
-        this.fuelText.text = "Fuel: " + this.fuel.ToString();
-    }
+       return _instance;
+   }
 
-    private void GameOver(){
-    }
-
-
+   
+    private GameManager()
+   {
+   }
 }

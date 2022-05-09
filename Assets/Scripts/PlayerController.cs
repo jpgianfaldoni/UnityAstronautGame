@@ -70,12 +70,12 @@ public class PlayerController : MonoBehaviour
         cameraRotation-=mouse_dY;
         Mathf.Clamp(cameraRotation, -75.0f, 75.0f);       
         if(Input.GetMouseButton(0)){
-            if(FindObjectOfType<GameManager>().fuel > 0) {
+            if(FindObjectOfType<FuelManager>().fuel > 0) {
                 if (!emitting){
                     emitter.Play();
                     gasRelease.Play();
                 }
-                FindObjectOfType<GameManager>().useFuel();
+                FindObjectOfType<FuelManager>().useFuel();
                 direction += playerCamera.transform.forward * -this._baseSpeed;
                 emitting = true;
             } else {
@@ -92,11 +92,11 @@ public class PlayerController : MonoBehaviour
             }
             emitting = false;
             if (Input.GetButtonDown("Jump")){
-                if(FindObjectOfType<GameManager>().fuel > 0){
+                if(FindObjectOfType<FuelManager>().fuel > 0){
                     // Consume more fuel the faster you're going
                     int cost = ((int)direction.magnitude) / 10 + 1;
-                    if(FindObjectOfType<GameManager>().fuel > 0){
-                        FindObjectOfType<GameManager>().useFuel(cost);
+                    if(FindObjectOfType<FuelManager>().fuel > 0){
+                        FindObjectOfType<FuelManager>().useFuel(cost);
                         direction = Vector3.zero;
                         gasReleaseSpace.Play();
                     }
