@@ -23,8 +23,11 @@ public class PlayerController : MonoBehaviour
 
     private bool playWarning = true;
 
+    private GameManager gm;
+
     void Start()
     {
+        gm = GameManager.GetInstance();
         characterController = GetComponent<CharacterController>();
         flashlight = GetComponentInChildren<Light>();
         playerCamera = GameObject.Find("Main Camera");
@@ -45,7 +48,9 @@ public class PlayerController : MonoBehaviour
         } else {
             // Time ran out
             Debug.Log("Time is up!");
-            this._timeRemaining = 0f;   
+            this._timeRemaining = 0f;
+            Cursor.lockState = CursorLockMode.None;
+            gm.GameOver();   
         }
         float minutes = Mathf.FloorToInt(this._timeRemaining / 60);
         float seconds = Mathf.FloorToInt(this._timeRemaining % 60);
@@ -58,10 +63,25 @@ public class PlayerController : MonoBehaviour
         this.distanceText.text = string.Format("Distance to goal: {0:0}m", dist);
     }
 
+    void checkFuel(){
+        if (FindObjectOfType<FuelManager>().fuel <= 0){
+            Cursor.lockState = CursorLockMode.None;
+            gm.GameOver();
+        }
+    }
+
+    void checkRestart(){
+        if(Input.GetKeyDown(KeyCode.Backspace)){
+            gm.RestartLevel();
+        }
+    }
+
     void Update()
     {
         updateTimer();
         updateDistance();
+        checkFuel();
+        checkRestart();
 
         float mouse_dX, mouse_dY;
         mouse_dX = Input.GetAxis("Mouse X") * this._mouseSensitivity * Time.deltaTime;
