@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public Text speedText, distanceText, timerText;
     private float yaw, pitch;
 
-    private float _timeRemaining = 60;
+    public float _timeRemaining = 60;
 
     public AudioSource gasRelease, warning, gasReleaseSpace;
 
