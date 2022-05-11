@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
 
 public class RetryButton : MonoBehaviour
 {
-    public void BtnClick(){
-        SceneManager.LoadScene("StartScene");
+    private GameManager gm;
+    void Start(){
+        gm = GameManager.GetInstance();
+    }
+    public void RetryBtnClick(){
+        gm.RestartLevel();
+    }
+    public void QuitBtnClick(){
+        gm.QuitGame();
     }
 }

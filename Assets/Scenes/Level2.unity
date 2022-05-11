@@ -1401,7 +1401,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fuel: 100
-  startFuel: 1000
+  startFuel: 1500
   fuelText: {fileID: 539496600}
 --- !u!4 &748279061
 Transform:
@@ -6864,6 +6864,7 @@ MonoBehaviour:
   speedText: {fileID: 1398139032}
   distanceText: {fileID: 845274144}
   timerText: {fileID: 1733770634}
+  _timeRemaining: 90
   gasRelease: {fileID: 216825866}
   warning: {fileID: 336585701}
   gasReleaseSpace: {fileID: 838418550}
