@@ -16,4 +16,7 @@ public class StartButton : MonoBehaviour
     public void BtnClick(){
         gm.NextLevel();
     }
+    public void ExitGame(){
+        gm.KillApplication();
+    }
 }

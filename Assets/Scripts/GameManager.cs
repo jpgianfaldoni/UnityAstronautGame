@@ -13,7 +13,7 @@ public class GameManager{
     private const string EndScene = "EndScene";
     private const string VictoryScene = "VictoryScene";
     private static bool shouldMouse = true;
-    private static int currLevelIndex = 0;  
+    private static int currLevelIndex = -1;  
     public static GameManager GetInstance(){
         if(_instance == null){
             _instance = new GameManager();
@@ -26,7 +26,7 @@ public class GameManager{
     }
     public void QuitGame(){
         shouldMouse = true;
-        currLevelIndex = 0;
+        currLevelIndex = -1;
         SceneManager.LoadScene(StartScene);
     }
     public void NextLevel(){
@@ -37,22 +37,29 @@ public class GameManager{
             return;
         }
         shouldMouse = false;
+        currLevelIndex++;
         if(currLevelIndex > 5){
             shouldMouse = true;
-            currLevelIndex = 0;
+            currLevelIndex = -1;
+            // Debug.LogError("Entrando na cena de Vitória");
             SceneManager.LoadScene(VictoryScene);
             return;
         } else {
+            // Debug.LogError("Avançando Nível");
             SceneManager.LoadScene(LevelList[currLevelIndex]);
-            currLevelIndex++;
             return;
         }
     }
     public void RestartLevel(){
         SceneManager.LoadScene(LevelList[currLevelIndex]);
+        shouldMouse = false;
     }
 
     public bool getMouseState(){
         return GameManager.shouldMouse;
+    }
+
+    public void KillApplication(){
+        Application.Quit();
     }
 }

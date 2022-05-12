@@ -9,14 +9,16 @@ public class TextScroller : MonoBehaviour
     void Start()
     {
         gm = GameManager.GetInstance();
-        Invoke(nameof(advanceToFirstLevel), 40.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.transform.localPosition = new Vector3(0, this.transform.localPosition.y + 0.40f, 0);
+        this.transform.localPosition = new Vector3(0, this.transform.localPosition.y + 1f, 0);
         if(Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0)){
+            advanceToFirstLevel();
+        }
+        if (this.transform.localPosition.y > 1700){
             advanceToFirstLevel();
         }
     }

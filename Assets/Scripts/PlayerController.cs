@@ -74,8 +74,8 @@ public class PlayerController : MonoBehaviour
 
     void checkRestart(){
         if(Input.GetKeyDown(KeyCode.Backspace)){
-            gm.RestartLevel();
-            // gm.NextLevel();
+            // gm.RestartLevel();
+            gm.NextLevel();
         }
     }
 
