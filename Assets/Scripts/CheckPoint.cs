@@ -9,18 +9,17 @@ public class CheckPoint : MonoBehaviour
     private GameManager gm;
  
     void Update(){
-        if(isInBox){
-            Debug.Log("Found in box!");
-        } else {
-            Debug.Log("Not in box!");
-        }
+        // if(isInBox){
+        //     Debug.Log("Found in box!");
+        // } else {
+        //     Debug.Log("Not in box!");
+        // }
     }
     
     void OnTriggerStay(Collider other){
         if(other.CompareTag("Player")){
             isInBox = true;
             gm.NextLevel();
-            
         }
     }
     void OnTriggerExit(Collider other){

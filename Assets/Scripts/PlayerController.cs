@@ -3,7 +3,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     private float _baseSpeed = 0.5f;
-    private float _mouseSensitivity = 250.0f;
+    private float _mouseSensitivity = 200.0f;
     private CharacterController characterController;
     private GameObject playerCamera;
     private Light flashlight;
@@ -32,7 +32,11 @@ public class PlayerController : MonoBehaviour
         flashlight = GetComponentInChildren<Light>();
         playerCamera = GameObject.Find("Main Camera");
         cameraRotation = 0.0f;
-        Cursor.lockState = CursorLockMode.Locked;
+        if(gm.getMouseState()){
+            Cursor.lockState = CursorLockMode.None;
+        } else {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
         goal = GameObject.FindGameObjectWithTag("Finish");
     }
 
@@ -49,7 +53,6 @@ public class PlayerController : MonoBehaviour
             // Time ran out
             Debug.Log("Time is up!");
             this._timeRemaining = 0f;
-            Cursor.lockState = CursorLockMode.None;
             gm.GameOver();   
         }
         float minutes = Mathf.FloorToInt(this._timeRemaining / 60);
@@ -65,7 +68,6 @@ public class PlayerController : MonoBehaviour
 
     void checkFuel(){
         if (FindObjectOfType<FuelManager>().fuel <= 0){
-            Cursor.lockState = CursorLockMode.None;
             gm.GameOver();
         }
     }
@@ -73,7 +75,14 @@ public class PlayerController : MonoBehaviour
     void checkRestart(){
         if(Input.GetKeyDown(KeyCode.Backspace)){
             gm.RestartLevel();
+            // gm.NextLevel();
         }
+    }
+
+    void checkQuit(){
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            gm.QuitGame();
+        }   
     }
 
     void Update()
@@ -82,6 +91,8 @@ public class PlayerController : MonoBehaviour
         updateDistance();
         checkFuel();
         checkRestart();
+        checkQuit();
+        
 
         float mouse_dX, mouse_dY;
         mouse_dX = Input.GetAxis("Mouse X") * this._mouseSensitivity * Time.deltaTime;
@@ -123,6 +134,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        
         direction = Vector3.ClampMagnitude(direction, 100.0f);
         speedText.text = "Speed: " + direction.magnitude.ToString("0");
 
