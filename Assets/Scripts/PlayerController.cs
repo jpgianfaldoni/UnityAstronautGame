@@ -3,7 +3,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     private float _baseSpeed = 0.5f;
-    private float _mouseSensitivity = 200.0f;
+    private float _mouseSensitivity = 4.5f;
     private CharacterController characterController;
     private GameObject playerCamera;
     private Light flashlight;
@@ -92,14 +92,7 @@ public class PlayerController : MonoBehaviour
         checkFuel();
         checkRestart();
         checkQuit();
-        
 
-        float mouse_dX, mouse_dY;
-        mouse_dX = Input.GetAxis("Mouse X") * this._mouseSensitivity * Time.deltaTime;
-        mouse_dY = Input.GetAxis("Mouse Y") * this._mouseSensitivity * Time.deltaTime;
-
-        cameraRotation-=mouse_dY;
-        Mathf.Clamp(cameraRotation, -75.0f, 75.0f);       
         if(Input.GetMouseButton(0)){
             if(FindObjectOfType<FuelManager>().fuel > 0) {
                 if (!emitting){
@@ -137,19 +130,24 @@ public class PlayerController : MonoBehaviour
         
         direction = Vector3.ClampMagnitude(direction, 100.0f);
         speedText.text = "Speed: " + direction.magnitude.ToString("0");
-
-        characterController.Move(direction * Time.deltaTime);
-        this.transform.Rotate(Vector3.up, mouse_dX);
-        this.transform.Rotate(Vector3.right, -mouse_dY);
-        this.yaw += mouse_dX;
-        this.pitch-=mouse_dY;
-        this.yaw = this.yaw%360;
-        this.pitch = this.pitch%360;
-        
-        yawPointer.transform.eulerAngles = new Vector3(0,0,this.yaw);
-        pitchPointer.transform.eulerAngles = new Vector3(0,0,this.pitch);       
+        characterController.Move(direction * Time.deltaTime);      
 
         // playerCamera.transform.localRotation = Quaternion.Euler(cameraRotation, 0.0f, 0.0f);
         // flashlight.transform.localRotation = Quaternion.Euler(cameraRotation, 0.0f, 0.0f);
+    }
+
+    private void FixedUpdate() {
+        float mouse_dX, mouse_dY;
+        mouse_dX = Input.GetAxis("Mouse X") * this._mouseSensitivity;
+        mouse_dY = Input.GetAxis("Mouse Y") * this._mouseSensitivity;
+        cameraRotation -= mouse_dY;
+        this.transform.Rotate(Vector3.up, mouse_dX);
+        this.transform.Rotate(Vector3.right, -mouse_dY);
+        this.yaw += mouse_dX;
+        this.pitch -= mouse_dY;
+        this.yaw = this.yaw%360;
+        this.pitch = this.pitch%360;
+        yawPointer.transform.eulerAngles = new Vector3(0,0,this.yaw);
+        pitchPointer.transform.eulerAngles = new Vector3(0,0,this.pitch); 
     }
 }
